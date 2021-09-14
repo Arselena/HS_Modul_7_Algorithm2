@@ -1,5 +1,5 @@
 import unittest
-from Level_7_2_2 import BSTNode, BSTFind, BST
+from Level_7_2 import BSTNode, BSTFind, BST
 
 class DefTest(unittest.TestCase):
 
@@ -120,6 +120,9 @@ class DefTest(unittest.TestCase):
         self.assertEqual(self.Node_9.RightChild, self.Node_12)
         self.assertEqual(self.Node_4.Parent, self.Node_9)
         self.assertEqual(self.Node_12.Parent, self.Node_9)
+
+        del_Leaf = self.my_tree.DeleteNodeByKey(13)
+        self.assertEqual(self.Node_14.LeftChild, None)
 
 if __name__ == '__main__':
     unittest.main()
