@@ -113,13 +113,19 @@ class BST: # BinarySearchTree
             return False 
         
         DeleteNode = DeleteNode_BSTFind.Node
-        MinNodeOfRightChild = self.FinMinMax(DeleteNode.RightChild, False)
-        
-        if MinNodeOfRightChild.RightChild is not None: # если у минимального правого узла есть правый потомок
-            init_Parent(MinNodeOfRightChild, MinNodeOfRightChild.RightChild)
+        if DeleteNode.RightChild is not None:
+            MinNodeOfRightChild = self.FinMinMax(DeleteNode.RightChild, False)
             
-        init_Parent(DeleteNode, MinNodeOfRightChild)
-        init_Child(DeleteNode, MinNodeOfRightChild)
+            if MinNodeOfRightChild.RightChild is not None: # если у минимального правого узла есть правый потомок
+                init_Parent(MinNodeOfRightChild, MinNodeOfRightChild.RightChild)
+                
+            init_Parent(DeleteNode, MinNodeOfRightChild)
+            init_Child(DeleteNode, MinNodeOfRightChild)
+        else:
+            if DeleteNode.Parent.LeftChild == DeleteNode:
+                DeleteNode.Parent.LeftChild = None
+            else:
+                DeleteNode.Parent.RightChild = None
 
         DeleteNode.Parent = None 
         DeleteNode.LeftChild = None 
