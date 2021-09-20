@@ -1,4 +1,7 @@
 # 7.1. Двоичные деревья поиска 
+from logging import root
+
+
 class BSTNode:
 	
     def __init__(self, key, val, parent):
@@ -86,50 +89,72 @@ class BST: # BinarySearchTree
         return FindNode
 	
     def DeleteNodeByKey(self, key):
-        def init_Parent(DeleteNode, MoveNode):
-            if DeleteNode is not self.Root:
-                MoveNode.Parent = DeleteNode.Parent
+        def __del_DeleteNode(DeleteNode):
+            DeleteNode.Parent = None 
+            DeleteNode.LeftChild = None 
+            DeleteNode.RightChild = None 
+        
+        def Move_Node(DeleteNode, MoveNode):
+            # определяем связь с родителем 
+            if DeleteNode is self.Root:
+                MoveNode.Parent = None
+                self.Root = MoveNode
+            else:
+                MoveNode.Parent = DeleteNode.Parent 
                 if DeleteNode.Parent.LeftChild == DeleteNode:
                     DeleteNode.Parent.LeftChild = MoveNode
                 else:
+                    DeleteNode.Parent.RightChild == DeleteNode
                     DeleteNode.Parent.RightChild = MoveNode
-            else:
-                self.Root = MoveNode
-
-        def init_Child(DeleteNode, MoveNode):
-            if DeleteNode.RightChild is not MoveNode:
-                MoveNode.RightChild = DeleteNode.RightChild
-            if DeleteNode.LeftChild is not MoveNode:
+            # если у удаляемого узла только левый потомок
+            if DeleteNode.LeftChild == MoveNode: 
+                return
+            # определяем связь с левым потомком удаляемого узла
+            if DeleteNode.LeftChild is not None:
                 MoveNode.LeftChild = DeleteNode.LeftChild
-          
-            if MoveNode.LeftChild is not None:
-                MoveNode.LeftChild.Parent = MoveNode
-            if MoveNode.RightChild is not None:
-                MoveNode.RightChild.Parent = MoveNode
-        
-        #  удаляем узел по ключу
+                DeleteNode.LeftChild.Parent = MoveNode
+
+            # определяем связь с правым потомком удаляемого узла
+            if DeleteNode.RightChild != MoveNode: 
+                MoveNode.RightChild = DeleteNode.RightChild
+                DeleteNode.RightChild.Parent = MoveNode
+
+
         DeleteNode_BSTFind = self.FindNodeByKey(key)
-        if DeleteNode_BSTFind.NodeHasKey == False: # если узел не найден
-            return False 
+        if DeleteNode_BSTFind.NodeHasKey is False: # если узел не найден
+            return False
         
         DeleteNode = DeleteNode_BSTFind.Node
-        if DeleteNode.RightChild is not None:
-            MinNodeOfRightChild = self.FinMinMax(DeleteNode.RightChild, False)
-            
-            if MinNodeOfRightChild.RightChild is not None: # если у минимального правого узла есть правый потомок
-                init_Parent(MinNodeOfRightChild, MinNodeOfRightChild.RightChild)
-                
-            init_Parent(DeleteNode, MinNodeOfRightChild)
-            init_Child(DeleteNode, MinNodeOfRightChild)
-        else:
+        
+        # Если в дереве только корень
+        if DeleteNode == self.Root and DeleteNode.LeftChild is None and DeleteNode.RightChild is None:
+            __del_DeleteNode(DeleteNode)
+            self.Root = None
+            return True
+
+        # Если удаляемый узел ЛИСТ
+        if DeleteNode.LeftChild is None and DeleteNode.RightChild is None:
             if DeleteNode.Parent.LeftChild == DeleteNode:
                 DeleteNode.Parent.LeftChild = None
             else:
                 DeleteNode.Parent.RightChild = None
-
-        DeleteNode.Parent = None 
-        DeleteNode.LeftChild = None 
-        DeleteNode.RightChild = None 
+            __del_DeleteNode(DeleteNode)
+            return True
+    
+        if DeleteNode.RightChild is None:
+            Move_Node(DeleteNode, DeleteNode.LeftChild)
+        elif DeleteNode.RightChild.LeftChild is None: # если у правого потомка удаляемого узла нет левого потомка
+            Move_Node(DeleteNode, DeleteNode.RightChild)
+        else:
+            MinNodeOfRightChild = self.FinMinMax(DeleteNode.RightChild, False)
+            if MinNodeOfRightChild.RightChild is not None:
+                MinNodeOfRightChild.Parent.LeftChild = MinNodeOfRightChild.RightChild
+                MinNodeOfRightChild.RightChild.Parent = MinNodeOfRightChild.Parent
+            elif DeleteNode.RightChild != MinNodeOfRightChild:
+                MinNodeOfRightChild.Parent.LeftChild = None
+            Move_Node(DeleteNode, MinNodeOfRightChild)
+        
+        __del_DeleteNode(DeleteNode)
         return True 
 
     def Count(self):
