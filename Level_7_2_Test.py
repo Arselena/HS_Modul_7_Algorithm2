@@ -76,6 +76,7 @@ class DefTest(unittest.TestCase):
         test_BSTFind_Add_6 = self.my_tree.FindNodeByKey(6)
         self.assertEqual(test_BSTFind_Add_6.NodeHasKey, True)
         self.assertEqual(test_BSTFind_Add_6.Node.NodeValue, 66)
+        self.assertEqual(self.Node_7.LeftChild.NodeKey, 5)
         self.assertEqual(test_BSTFind_Add_6.Node.Parent.NodeKey, 5) # Родителем Узел_6 будет Узел_5
         self.assertEqual(self.Node_5.RightChild, test_BSTFind_Add_6.Node) # Правым потомком Узел_5 будет Узел_6
         
@@ -114,15 +115,79 @@ class DefTest(unittest.TestCase):
 
     def test_DeleteNodeByKey(self):
         # Удаляем корень
-        del_Root = self.my_tree.DeleteNodeByKey(8)
-        self.assertEqual(self.my_tree.Root, self.Node_9)
+        self.my_tree.DeleteNodeByKey(8)
+        self.assertEqual(self.my_tree.Root.NodeKey, self.Node_9.NodeKey)
         self.assertEqual(self.Node_9.LeftChild, self.Node_4)
         self.assertEqual(self.Node_9.RightChild, self.Node_12)
-        self.assertEqual(self.Node_4.Parent, self.Node_9)
+        self.assertEqual(self.Node_4.Parent.NodeKey, self.Node_9.NodeKey)
         self.assertEqual(self.Node_12.Parent, self.Node_9)
+        self.assertEqual(self.Node_10.LeftChild, None)
 
-        del_Leaf = self.my_tree.DeleteNodeByKey(13)
+        # удаляем левый лист
+        self.my_tree.DeleteNodeByKey(13)
         self.assertEqual(self.Node_14.LeftChild, None)
+
+        # удаляем правый лист
+        self.my_tree.DeleteNodeByKey(11)
+        self.assertEqual(self.Node_10.RightChild, None)
+
+        self.my_tree.DeleteNodeByKey(1)
+        self.assertEqual(self.Node_2.LeftChild, None)
+
+        self.my_tree.DeleteNodeByKey(2)
+        self.assertEqual(self.Node_4.LeftChild, self.Node_3)
+        self.assertEqual(self.Node_3.Parent, self.Node_4)
+
+        self.my_tree.DeleteNodeByKey(3)
+        self.assertEqual(self.Node_4.LeftChild, None)
+
+        self.my_tree.DeleteNodeByKey(4)
+        self.assertEqual(self.Node_5.Parent.NodeKey, self.Node_9.NodeKey)
+        self.assertEqual(self.Node_5.LeftChild, None)
+        self.assertEqual(self.Node_5.RightChild, self.Node_6)
+        self.assertEqual(self.Node_9.LeftChild, self.Node_5)
+        self.assertEqual(self.Node_6.Parent.NodeKey, self.Node_5.NodeKey)
+        self.assertEqual(self.Node_6.LeftChild, None)
+
+        self.my_tree.DeleteNodeByKey(5)
+        self.assertEqual(self.Node_6.Parent.NodeKey, self.Node_9.NodeKey)
+        self.assertEqual(self.Node_6.RightChild.NodeKey, self.Node_7.NodeKey)
+        self.assertEqual(self.my_tree.Root.NodeKey, self.Node_9.NodeKey)
+        
+        self.my_tree.DeleteNodeByKey(6)
+        self.assertEqual(self.Node_7.Parent.NodeKey, self.Node_9.NodeKey)
+        self.assertEqual(self.Node_9.LeftChild.NodeKey, self.Node_7.NodeKey)
+        
+        self.my_tree.DeleteNodeByKey(7)
+        self.assertEqual(self.Node_9.LeftChild, None)
+        
+        self.my_tree.DeleteNodeByKey(9)
+        self.assertEqual(self.my_tree.Root.NodeKey, self.Node_10.NodeKey)
+        self.assertEqual(self.Node_10.LeftChild, None)
+        self.assertEqual(self.Node_10.Parent, None)
+        self.assertEqual(self.Node_12.Parent.NodeKey, self.Node_10.NodeKey)
+        self.assertEqual(self.Node_10.RightChild.NodeKey, self.Node_12.NodeKey)
+        self.assertEqual(self.Node_12.LeftChild, None)
+
+        self.my_tree.DeleteNodeByKey(12)
+        self.assertEqual(self.Node_10.RightChild.NodeKey, self.Node_14.NodeKey)
+        self.assertEqual(self.Node_14.Parent.NodeKey, self.Node_10.NodeKey)
+
+        self.my_tree.DeleteNodeByKey(10)
+        self.assertEqual(self.my_tree.Root.NodeKey, self.Node_14.NodeKey)
+        self.assertEqual(self.Node_14.LeftChild, None)
+        self.assertEqual(self.Node_14.Parent, None)
+        self.assertEqual(self.Node_10.RightChild, None)
+        self.assertEqual(self.Node_14.RightChild, self.Node_15)
+
+        self.my_tree.DeleteNodeByKey(14)
+        self.assertEqual(self.my_tree.Root.NodeKey, self.Node_15.NodeKey)
+        self.assertEqual(self.Node_15.LeftChild, None)
+        self.assertEqual(self.Node_15.Parent, None)
+        self.assertEqual(self.Node_15.RightChild, None)
+        
+        self.my_tree.DeleteNodeByKey(15)
+        self.assertEqual(self.my_tree.Root, None)
 
 if __name__ == '__main__':
     unittest.main()
