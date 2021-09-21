@@ -158,5 +158,7 @@ class BST: # BinarySearchTree
         return True 
 
     def Count(self):
+        if self.Root == None:
+            return 0
         All_Nodes_list = BST.tree_traversal(self.Root, [self.Root], [self.Root])
         return len(All_Nodes_list) # количество узлов в дереве
