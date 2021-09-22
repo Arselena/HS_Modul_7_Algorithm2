@@ -66,11 +66,21 @@ class DefTest(unittest.TestCase):
         self.assertEqual(test_BSTFind_6.Node, self.Node_6)
 
     def test_AddKeyValue(self):
+        #  добавление в пустое дерево
+        self.my_tree_empty = BST(None)
+        self.assertEqual(self.my_tree_empty.Count(), 0)
+        self.my_tree_empty.AddKeyValue(1, 11)
+        self.assertEqual(self.my_tree_empty.Count(), 1)
+        self.assertEqual(self.my_tree_empty.FindNodeByKey(1).NodeHasKey, True)
+        self.assertEqual(self.my_tree_empty.Root.NodeKey, 1)
+
         # удаляем Узел_6, тогда вместо Узел_6 встанет Узел_7 (с потомком Узел_5)
+        self.assertEqual(self.my_tree.Count(), 15)
         self.my_tree.DeleteNodeByKey(6)
         test_BSTFind_Del_6 = self.my_tree.FindNodeByKey(6)
         self.assertEqual(test_BSTFind_Del_6.NodeHasKey, False)
-        
+        self.assertEqual(self.my_tree.Count(), 14)
+
         # Добавляем узел правым потомком
         self.my_tree.AddKeyValue(6, 66)
         test_BSTFind_Add_6 = self.my_tree.FindNodeByKey(6)
@@ -79,7 +89,8 @@ class DefTest(unittest.TestCase):
         self.assertEqual(self.Node_7.LeftChild.NodeKey, 5)
         self.assertEqual(test_BSTFind_Add_6.Node.Parent.NodeKey, 5) # Родителем Узел_6 будет Узел_5
         self.assertEqual(self.Node_5.RightChild, test_BSTFind_Add_6.Node) # Правым потомком Узел_5 будет Узел_6
-        
+        self.assertEqual(self.my_tree.Count(), 15)
+
         # добавляем узел левым потомком
         self.assertEqual(self.my_tree.FindNodeByKey(0).NodeHasKey, False) # проверили, что в дереве нет узла с этим ключом
         self.my_tree.AddKeyValue(0, 0)
@@ -88,6 +99,7 @@ class DefTest(unittest.TestCase):
         self.assertEqual(test_BSTFind_Add_0.Node.NodeValue, 0)
         self.assertEqual(test_BSTFind_Add_0.Node.Parent.NodeKey, 1) # Родителем Узел_0 будет Узел_1
         self.assertEqual(self.Node_1.LeftChild, test_BSTFind_Add_0.Node) # Левым потомком Узел_1 будет Узел_0
+        self.assertEqual(self.my_tree.Count(), 16)
 
         # попытка добавить узел, который уже есть в дереве
         self.assertEqual(self.my_tree.FindNodeByKey(8).NodeHasKey, True) # проверили, что в дереве есть узел с этим ключом 
@@ -97,7 +109,8 @@ class DefTest(unittest.TestCase):
         self.assertEqual(test_BSTFind_Add_8.Node.LeftChild, self.Node_4)
         self.assertEqual(test_BSTFind_Add_8.Node.RightChild, self.Node_12)
         self.assertEqual(self.Node_8, self.my_tree.Root)
-        
+        self.assertEqual(self.my_tree.Count(), 16)
+
     def test_FinMinMax(self):
         min_root = self.my_tree.FinMinMax(None, False)
         max_root = self.my_tree.FinMinMax(None, True)
@@ -122,17 +135,21 @@ class DefTest(unittest.TestCase):
         self.assertEqual(self.Node_4.Parent.NodeKey, self.Node_9.NodeKey)
         self.assertEqual(self.Node_12.Parent, self.Node_9)
         self.assertEqual(self.Node_10.LeftChild, None)
+        self.assertEqual(self.my_tree.Count(), 14)
 
         # удаляем левый лист
         self.my_tree.DeleteNodeByKey(13)
         self.assertEqual(self.Node_14.LeftChild, None)
+        self.assertEqual(self.my_tree.Count(), 13)
 
         # удаляем правый лист
         self.my_tree.DeleteNodeByKey(11)
         self.assertEqual(self.Node_10.RightChild, None)
+        self.assertEqual(self.my_tree.Count(), 12)
 
         self.my_tree.DeleteNodeByKey(1)
         self.assertEqual(self.Node_2.LeftChild, None)
+        self.assertEqual(self.my_tree.Count(), 11)
 
         self.my_tree.DeleteNodeByKey(2)
         self.assertEqual(self.Node_4.LeftChild, self.Node_3)
@@ -157,7 +174,8 @@ class DefTest(unittest.TestCase):
         self.my_tree.DeleteNodeByKey(6)
         self.assertEqual(self.Node_7.Parent.NodeKey, self.Node_9.NodeKey)
         self.assertEqual(self.Node_9.LeftChild.NodeKey, self.Node_7.NodeKey)
-        
+        self.assertEqual(self.my_tree.Count(), 6)
+
         self.my_tree.DeleteNodeByKey(7)
         self.assertEqual(self.Node_9.LeftChild, None)
         
@@ -185,9 +203,11 @@ class DefTest(unittest.TestCase):
         self.assertEqual(self.Node_15.LeftChild, None)
         self.assertEqual(self.Node_15.Parent, None)
         self.assertEqual(self.Node_15.RightChild, None)
+        self.assertEqual(self.my_tree.Count(), 1)
         
         self.my_tree.DeleteNodeByKey(15)
         self.assertEqual(self.my_tree.Root, None)
+        self.assertEqual(self.my_tree.Count(), 0)
 
 if __name__ == '__main__':
     unittest.main()
