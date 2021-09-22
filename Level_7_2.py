@@ -60,12 +60,17 @@ class BST: # BinarySearchTree
     def FindNodeByKey(self, key):
         # ищем в дереве узел и сопутствующую информацию по ключу
         NodeCurrent = BSTFind()
+        if self.Root is None:
+            return NodeCurrent
         NodeCurrent.Node = self.Root
         return BST.FindByKey(NodeCurrent, key)# возвращает BSTFind
 
     def AddKeyValue(self, key, val):
         NewNode = BSTNode(key, val, None)
         NodeToAdd = self.FindNodeByKey(key)
+        if self.Root == NodeToAdd.Node:
+            self.Root = NewNode
+            return True
         if NodeToAdd.NodeHasKey == False:
             NewNode.Parent = NodeToAdd.Node
             if NodeToAdd.ToLeft == True:
