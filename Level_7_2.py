@@ -1,7 +1,4 @@
-# 7.1. Двоичные деревья поиска 
-from logging import root
-
-
+# 7.2. Двоичные деревья поиска 
 class BSTNode:
 	
     def __init__(self, key, val, parent):
@@ -10,7 +7,6 @@ class BSTNode:
         self.Parent = parent # родитель или None для корня
         self.LeftChild = None # левый потомок
         self.RightChild = None # правый потомок
-
 
 class BSTFind: # промежуточный результат поиска
 
@@ -45,7 +41,6 @@ class BST: # BinarySearchTree
         if key == NodeCurrent.Node.NodeKey:
             NodeCurrent.NodeHasKey = True
             return NodeCurrent
-        
         if key < NodeCurrent.Node.NodeKey and NodeCurrent.Node.LeftChild is not None:
             NodeCurrent.Node = NodeCurrent.Node.LeftChild
             BST.FindByKey(NodeCurrent, key)
@@ -68,15 +63,15 @@ class BST: # BinarySearchTree
     def AddKeyValue(self, key, val):
         NewNode = BSTNode(key, val, None)
         NodeToAdd = self.FindNodeByKey(key)
-        if self.Root == NodeToAdd.Node:
-            self.Root = NewNode
-            return True
         if NodeToAdd.NodeHasKey == False:
-            NewNode.Parent = NodeToAdd.Node
-            if NodeToAdd.ToLeft == True:
-                NodeToAdd.Node.LeftChild = NewNode
+            if NodeToAdd.Node is None:
+                self.Root = NewNode
             else:
-                NodeToAdd.Node.RightChild = NewNode
+                NewNode.Parent = NodeToAdd.Node
+                if NodeToAdd.ToLeft == True:
+                    NodeToAdd.Node.LeftChild = NewNode
+                else:
+                    NodeToAdd.Node.RightChild = NewNode
             return True
         # добавляем ключ-значение в дерево
         return False # если ключ уже есть
@@ -160,10 +155,11 @@ class BST: # BinarySearchTree
             Move_Node(DeleteNode, MinNodeOfRightChild)
         
         __del_DeleteNode(DeleteNode)
+        
         return True 
 
     def Count(self):
-        if self.Root == None:
+        if self.Root is None:
             return 0
         All_Nodes_list = BST.tree_traversal(self.Root, [self.Root], [self.Root])
         return len(All_Nodes_list) # количество узлов в дереве
