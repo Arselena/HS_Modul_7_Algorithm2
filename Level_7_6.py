@@ -34,10 +34,7 @@ class BalancedBST:
         a_sort = sorted(a)
         BBST = []
         Add_Key_rec(BBST, a_sort, range(0, len(a_sort)))
-    
         return BBST
-    # создаём дерево с нуля из неотсортированного массива a
-	# ...      
 
     def IsBalanced(self, root_node):
         def depth(root_node):
@@ -65,35 +62,3 @@ class BalancedBST:
         else:
             balanse = False
         return balanse
-        
-        # return False # сбалансировано ли дерево с корнем root_node
-
-
-# my_BBST = BalancedBST()
-# mas = my_BBST.GenerateTree([1,2,3,4,5,6,7,8,9,10,10])
-
-n0 = BSTNode("0", None)
-n1 = BSTNode("1", n0)
-n2 = BSTNode("2", n1)
-n3 = BSTNode("3", n2)
-
-n0.LeftChild = n1
-n1.LeftChild = n2
-n2.LeftChild = n3
-
-my_BBST = BalancedBST()
-my_BBST.Root = n0
-# mas = my_BBST.GenerateTree([1,1,1,3,3,3])
-# for i in mas:
-#     print("Key and Level", i.NodeKey, i.Level)
-#     if i.LeftChild is not None:
-#         print("Left", i.LeftChild.NodeKey)
-#     if i.RightChild is not None:
-#         print("Right", i.RightChild.NodeKey)
-print("глубина", my_BBST.IsBalanced(my_BBST.Root))
-
-
-# print(my_BBST.GenerateTree([1,2,3,4,5,6,7,8,9,10]))
-# print(my_BBST.Root.NodeKey)
-# print(my_BBST.Root.LeftChild.NodeKey)
-# print(my_BBST.Root.RightChild.NodeKey)
