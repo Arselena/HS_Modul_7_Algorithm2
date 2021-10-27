@@ -11,9 +11,10 @@ class Heap:
         pass
 
     def FindNoneId(self):
-        for i in range(self.Size):
-            if self.HeapArray[i] == None:
-                return i
+        if self.HeapArray != []:
+            for i in range(self.Size):
+                if self.HeapArray[i] == None:
+                    return i
         return False
 
     def GetMax(self):   # вернуть значение корня и перестроить кучу
@@ -63,3 +64,9 @@ class Heap:
                 curent_node = parent_node
                 parent_node = int((curent_node - 1) / 2)
         return False # если куча вся заполнена
+
+my_Heap1 = Heap()
+# my_Heap1.MakeHeap([], 3)
+# print(my_Heap1.HeapArray)
+my_Heap1.Add(9)
+print(my_Heap1.HeapArray)
