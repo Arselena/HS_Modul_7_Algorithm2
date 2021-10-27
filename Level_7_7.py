@@ -41,10 +41,13 @@ class Heap:
 
         child_index = max_child_index(0)
         i = 0
-        while self.HeapArray[child_index] and self.HeapArray[i] < self.HeapArray[child_index]:
+        while child_index and self.HeapArray[i] < self.HeapArray[child_index]:
             self.HeapArray[i], self.HeapArray[child_index] = self.HeapArray[child_index], self.HeapArray[i]
             i = child_index
-            child_index = max_child_index(i)
+            if child_index < int((self.Size - 1) / 2) and self.HeapArray[int((self.Size - 1) / 2)]:
+                child_index = max_child_index(i)
+            else:
+                child_index = 0
         
         return max_node
 
