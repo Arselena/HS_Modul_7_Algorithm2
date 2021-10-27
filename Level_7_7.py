@@ -23,11 +23,12 @@ class Heap:
             if self.HeapArray[right] and self.HeapArray[right] > self.HeapArray[left]: 
                 return right
             return left
-            
-        max_node = self.HeapArray[0]
-        if max_node is None:
+        
+        if self.HeapArray == [] or self.HeapArray[0] is None:
             return -1   # return -1 # если куча пуста
-        if self.HeapArray[1] is None:
+      
+        max_node = self.HeapArray[0]
+        if self.Size == 1:
             self.HeapArray[0] = None
             return max_node
 
