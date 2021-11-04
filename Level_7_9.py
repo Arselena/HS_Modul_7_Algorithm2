@@ -54,8 +54,8 @@ class SimpleTree:
         OriginalNode.Parent = NewParent
         NewParent.Children.append(OriginalNode)
    
-    def Count(self, curent_root): # количество всех узлов в дереве
-        All_Nodes_list = SimpleTree.tree_traversal(curent_root, [curent_root], [curent_root])
+    def Count(self): # количество всех узлов в дереве
+        All_Nodes_list = SimpleTree.tree_traversal(self.Root, [self.Root], [self.Root])
         return len(All_Nodes_list)
 
     def LeafCount(self): # количество листьев в дереве
@@ -94,7 +94,11 @@ class SimpleTree:
         return lifs
 
     def EvenTrees(self):
-        if self.Count(self.Root) % 2 != 0:
+        def count_node(node):
+            All_Nodes_list = SimpleTree.tree_traversal(node, [node], [node])
+            return len(All_Nodes_list)
+
+        if self.Count() % 2 != 0:
             return None
 
         lifs = self.GetLeafs()
@@ -102,7 +106,7 @@ class SimpleTree:
         for i in range(len(lifs)):
             node = lifs[i]
             while node.Parent != self.Root:
-                if self.Count(node.Parent) % 2 == 0 and node.Parent not in node_connection:
+                if count_node(node.Parent) % 2 == 0 and node.Parent not in node_connection:
                     node_connection.append(node.Parent.Parent)
                     node_connection.append(node.Parent)
                 node = node.Parent
