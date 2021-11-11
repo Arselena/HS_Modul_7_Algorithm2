@@ -107,4 +107,4 @@ class SimpleGraph:
                 Stak_Hit.pop()
                 if Stak_Hit.stack == []:
                     return []
-                X_curent = Stak_Hit.pop()
+                X_curent = self.vertex.index(Stak_Hit.pop())
