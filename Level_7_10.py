@@ -26,6 +26,7 @@ class Stack:
             return None # если стек пустой, вернуть None
         return self.stack[-1] # вернуть последний эл-т
     
+
 class SimpleGraph:
 	
     def __init__(self, size):
@@ -83,16 +84,15 @@ class SimpleGraph:
             # возвращается список узлов -- путь из VFrom в VTo
             # или [] если пути нету
         Stak_Hit = Stack()  # делаем стек пустым
-
         for i in self.vertex: # все вершины графа отмечаем как непосещённые
             i.Hit = False
                 
         X_curent = VFrom # Выбираем текущую вершину
         while True:
             self.vertex[X_curent].Hit = True # Фиксируем вершину как посещённую.
-            Stak_Hit.push(X_curent) # Помещаем вершину в стек
+            Stak_Hit.push(self.vertex[X_curent]) # Помещаем вершину в стек
             if self.m_adjacency[X_curent][VTo] == 1:
-                Stak_Hit.push(VTo)
+                Stak_Hit.push(self.vertex[VTo])
                 return Stak_Hit.stack
             
             V_adjacent = 0
